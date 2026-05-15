@@ -1,0 +1,387 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PV+ Mobile Service Form</title>
+<style>
+* { box-sizing:border-box; }
+body { margin:0; font-family: Arial, Helvetica, sans-serif; background:#ecf3f8; color:#17324d; }
+.shell { max-width: 1180px; margin: 0 auto; padding: 18px; }
+.hero { margin-top: 14px; border-radius: 26px; overflow:hidden; color:#fff; padding:24px 24px 26px; background: linear-gradient(135deg, rgba(28,79,124,.95), rgba(14,138,146,.92)), repeating-linear-gradient(150deg, rgba(255,255,255,.08) 0, rgba(255,255,255,.08) 18px, rgba(255,255,255,.02) 18px, rgba(255,255,255,.02) 36px); box-shadow: 0 14px 36px rgba(20,60,97,.18); }
+.hero-top { display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
+.brand { display:flex; align-items:center; gap:18px; }
+.brand img { width:150px; height:auto; display:block; }
+.brand-copy h1 { margin:0; font-size:34px; line-height:1.05; letter-spacing:-.03em; }
+.brand-copy p { margin:8px 0 0; font-size:15px; opacity:.96; max-width:720px; }
+.staff-badge { background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.2); padding:10px 14px; border-radius:999px; font-size:13px; font-weight:700; }
+.main-grid { display:grid; grid-template-columns: 1.08fr .92fr; gap:18px; margin-top:18px; }
+.panel { background:#fff; border:1px solid #d7e4f0; border-radius:22px; box-shadow:0 10px 28px rgba(20,60,97,.08); overflow:hidden; }
+.panel-head { padding:18px 20px; border-bottom:1px solid #e4edf6; background:linear-gradient(180deg,#fdfefe,#f7fbff); }
+.panel-head h2 { margin:0; font-size:22px; color:#12375b; }
+.panel-head p { margin:6px 0 0; color:#61788f; font-size:13px; }
+.panel-body { padding:20px; }
+.grid { display:grid; grid-template-columns: 1fr 1fr; gap:14px 16px; }
+.field { display:flex; flex-direction:column; gap:6px; }
+.field.full { grid-column:1 / -1; }
+.field label { font-size:12px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; color:#61788f; }
+input, select, textarea { width:100%; border:1px solid #c8d9e8; border-radius:14px; padding:13px 14px; font:inherit; color:#17324d; background:#fbfdff; }
+textarea { min-height:100px; resize:vertical; }
+.input-row { display:flex; gap:12px; align-items:center; }
+.score-box { display:flex; align-items:center; gap:12px; }
+.score-box input { max-width:120px; font-size:24px; font-weight:800; text-align:center; }
+.score-pill { display:inline-flex; align-items:center; gap:8px; border-radius:999px; padding:10px 14px; font-weight:800; }
+.score-pill.green { background:#e2f7ef; color:#197b57; }
+.score-pill.yellow { background:#fff4d8; color:#9b6a00; }
+.score-pill.red { background:#fde7e7; color:#b22929; }
+.score-pill .dot { width:10px; height:10px; border-radius:50%; background:currentColor; }
+.actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+button { appearance:none; border:0; border-radius:14px; padding:14px 18px; font:inherit; font-weight:800; cursor:pointer; }
+.btn-primary { background:#169164; color:#fff; box-shadow:0 8px 18px rgba(22,145,100,.22); }
+.btn-secondary { background:#fff; color:#153654; border:1px solid #c9dae8; }
+.btn-ghost { background:#eef5fb; color:#153654; }
+.hint { color:#62778c; font-size:13px; margin-top:8px; }
+.findings-wrap { display:flex; flex-direction:column; gap:14px; }
+.finding-card { border:1px solid #dce9f5; border-radius:18px; background:#fbfdff; overflow:hidden; }
+.finding-card .top { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:14px 16px; background:#f3f8fd; border-bottom:1px solid #e3edf6; }
+.finding-card .top strong { font-size:16px; color:#12375b; }
+.finding-card .body { padding:16px; display:grid; grid-template-columns:1fr 1fr; gap:12px 14px; }
+.mini-label { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:#6a8197; font-weight:800; margin-bottom:6px; }
+.remove-btn { background:#fff; color:#ab2d2d; border:1px solid #efcccc; padding:9px 12px; border-radius:999px; }
+.uploader { border:2px dashed #b7cddd; border-radius:20px; padding:18px; background:linear-gradient(180deg,#fbfdff,#f4f9fd); }
+.uploader input { background:#fff; }
+.photo-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px; margin-top:16px; }
+.photo-item { border:1px solid #dbe8f4; border-radius:18px; overflow:hidden; background:#fff; box-shadow:0 4px 12px rgba(20,60,97,.06); }
+.photo-item img { width:100%; height:190px; object-fit:cover; display:block; background:#eaf1f7; }
+.photo-body { padding:12px; }
+.photo-actions { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+.link-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+.preview-box { background:#fff; border:1px solid #d7e4f0; border-radius:22px; box-shadow:0 10px 28px rgba(20,60,97,.08); overflow:hidden; }
+.preview-frame { width:100%; height:980px; border:0; background:#f5f9fc; }
+.toast { position:fixed; right:18px; top:18px; max-width:360px; z-index:9999; display:none; padding:15px 16px; border-radius:16px; color:#fff; font-weight:700; box-shadow:0 14px 32px rgba(0,0,0,.18); }
+.toast.ok { background:#169164; } .toast.err { background:#cb3434; }
+.toast a { color:#fff; text-decoration:underline; }
+
+.reportcard-live { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:12px; }
+.report-tile { border:1px solid #dce9f5; border-radius:16px; background:#fbfdff; padding:14px; }
+.report-tile.green { border-left:7px solid #1ea672; }
+.report-tile.yellow { border-left:7px solid #d9a100; }
+.report-tile.red { border-left:7px solid #cc3c3c; }
+.report-tile .k { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:#61788f; font-weight:800; }
+.report-tile .v { display:flex; justify-content:space-between; gap:10px; align-items:center; font-weight:900; color:#12375b; margin-top:6px; }
+.report-tile .v span { font-size:28px; }
+.check-section { border:1px solid #dce9f5; border-radius:16px; background:#fbfdff; padding:14px; margin:12px 0; }
+.check-section h3 { margin:0 0 10px; color:#12375b; }
+.check-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 12px; }
+.check { display:flex; gap:8px; align-items:flex-start; padding:9px 10px; border:1px solid #e3edf6; background:#fff; border-radius:12px; font-size:13px; line-height:1.35; }
+.check input { width:auto; margin-top:2px; }
+.small-note { font-size:12px; color:#61788f; margin-top:8px; line-height:1.45; }
+
+@media (max-width: 980px) {
+  .main-grid { grid-template-columns:1fr; }
+  .grid, .finding-card .body { grid-template-columns:1fr; }
+  .photo-grid { grid-template-columns:1fr; }
+  .preview-frame { height:760px; }
+  .brand-copy h1 { font-size:28px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hero">
+    <div class="hero-top">
+      <div class="brand">
+        <img id="logoImg" alt="PV+ logo">
+        <div class="brand-copy">
+          <h1>PV+ Staff Service & Inspection Form</h1>
+          <p>Branded field form for client-ready reports, real estate evaluations, service calls, and property management inspections.</p>
+        </div>
+      </div>
+      <div class="staff-badge">Staff only</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Inspection details</h2>
+          <p>Enter the job information, system snapshot, customer-facing summary, and detailed findings.</p>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="field"><label>Date</label><input id="date" type="date"></div>
+            <div class="field"><label>Reference ID</label><input id="referenceId" placeholder="Auto-generated if blank"></div>
+            <div class="field"><label>Technician</label><input id="technician" placeholder="Technician name"></div>
+            <div class="field"><label>Service type</label>
+              <select id="serviceType">
+                <option>Inspection</option>
+                <option>Service Call</option>
+                <option>Realtor Inspection</option>
+                <option>Property Management Review</option>
+                <option>Monitoring Troubleshooting</option>
+              </select>
+            </div>
+            <div class="field"><label>Customer</label><input id="customer" placeholder="Customer or company"></div>
+            <div class="field"><label>Address</label><input id="address" placeholder="Service address"></div>
+            <div class="field"><label>PV size (kW DC)</label><input id="pvSize" placeholder="e.g. 7.2"></div>
+            <div class="field"><label>Battery size (kWh)</label><input id="batterySize" placeholder="e.g. 13.5"></div>
+            <div class="field"><label>Monitoring</label><input id="monitoring" placeholder="Online / Offline / Partial"></div>
+            <div class="field"><label>Annual production (kWh)</label><input id="annualProduction" placeholder="Optional"></div>
+            <div class="field"><label>Inverter</label><input id="inverter" placeholder="Brand / model"></div>
+            <div class="field"><label>Modules</label><input id="modules" placeholder="Brand / qty / wattage"></div>
+            <div class="field full">
+              <label>System condition</label>
+              <div class="input-row">
+                <div class="score-box"><input id="score" type="number" min="0" max="100" value="90"></div>
+                <select id="condition" onchange="renderConditionPill()">
+                  <option>Excellent</option>
+                  <option>Service Recommended</option>
+                  <option>Immediate Attention</option>
+                </select>
+                <div id="conditionPill"></div>
+              </div>
+            </div>
+            <div class="field full"><label>Client-friendly summary</label><textarea id="summary" placeholder="Explain the overall condition in plain English for a homeowner, realtor, or property manager."></textarea></div>
+            <div class="field full"><label>What this means</label><textarea id="executiveSummary" placeholder="Educational explanation of what the findings mean for performance, reliability, or safety."></textarea></div>
+            <div class="field full"><label>Recommended PV+ service scope</label><textarea id="recommendations" placeholder="List the follow-on service items PV+ recommends."></textarea></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="panel" style="margin-top:18px;">
+        <div class="panel-head">
+          <h2>Solar Health Report Card™</h2>
+          <p>Use quick checkboxes and lifecycle inputs to auto-build the client-facing report card.</p>
+        </div>
+        <div class="panel-body">
+          <div class="grid">
+            <div class="field"><label>Install year</label><input id="installYear" type="number" placeholder="e.g. 2018" oninput="updateReportCard()"></div>
+            <div class="field"><label>Module warranty years</label><input id="moduleWarrantyYears" type="number" value="25" oninput="updateReportCard()"></div>
+            <div class="field"><label>Inverter warranty years</label><input id="inverterWarrantyYears" type="number" value="10" oninput="updateReportCard()"></div>
+            <div class="field"><label>Replacement outlook</label>
+              <select id="replacementYears" onchange="updateReportCard()">
+                <option value="10">8+ years remaining</option>
+                <option value="6">5–8 years remaining</option>
+                <option value="3">2–4 years remaining</option>
+                <option value="1">0–1 year / plan now</option>
+              </select>
+            </div>
+            <div class="field full"><label>Battery / Expansion Readiness</label>
+              <select id="expansionReadiness" onchange="updateReportCard()">
+                <option>Ready</option>
+                <option>Partial / Needs Review</option>
+                <option>Not Ready</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="check-section"><h3>1. Array Condition</h3><div class="check-grid">
+            <label class="check"><input type="checkbox" data-cat="array" data-deduct="25" data-label="Broken or damaged module" onchange="updateReportCard()">Broken/damaged module</label>
+            <label class="check"><input type="checkbox" data-cat="array" data-deduct="12" data-label="Heavy soiling or debris" onchange="updateReportCard()">Heavy soiling/debris</label>
+            <label class="check"><input type="checkbox" data-cat="array" data-deduct="15" data-label="Loose rail or attachment concern" onchange="updateReportCard()">Loose rail/attachment concern</label>
+            <label class="check"><input type="checkbox" data-cat="array" data-deduct="15" data-label="Animal intrusion or nesting" onchange="updateReportCard()">Animal intrusion/nesting</label>
+            <label class="check"><input type="checkbox" data-cat="array" data-deduct="10" data-label="Visible corrosion" onchange="updateReportCard()">Visible corrosion</label>
+            <label class="check"><input type="checkbox" data-cat="array" data-deduct="10" data-label="Module discoloration or delamination" onchange="updateReportCard()">Discoloration/delamination</label>
+          </div></div>
+
+          <div class="check-section"><h3>2. Roof Condition</h3><div class="check-grid">
+            <label class="check"><input type="checkbox" data-cat="roof" data-deduct="15" data-label="Cracked or damaged roofing observed" onchange="updateReportCard()">Cracked/damaged roofing</label>
+            <label class="check"><input type="checkbox" data-cat="roof" data-deduct="12" data-label="Deteriorated sealant around solar penetrations" onchange="updateReportCard()">Deteriorated sealant</label>
+            <label class="check"><input type="checkbox" data-cat="roof" data-deduct="20" data-label="Ponding or drainage concern" onchange="updateReportCard()">Ponding/drainage concern</label>
+            <label class="check"><input type="checkbox" data-cat="roof" data-deduct="15" data-label="Flashing or roof penetration concern" onchange="updateReportCard()">Flashing/penetration concern</label>
+            <label class="check"><input type="checkbox" data-cat="roof" data-deduct="18" data-label="Roof appears near end-of-life" onchange="updateReportCard()">Roof near end-of-life</label>
+          </div></div>
+
+          <div class="check-section"><h3>3. Array Performance</h3><div class="check-grid">
+            <label class="check"><input type="checkbox" data-cat="performance" data-deduct="20" data-label="Monitoring offline or unavailable" onchange="updateReportCard()">Monitoring offline/unavailable</label>
+            <label class="check"><input type="checkbox" data-cat="performance" data-deduct="20" data-label="Inverter or microinverter fault observed" onchange="updateReportCard()">Inverter/micro fault</label>
+            <label class="check"><input type="checkbox" data-cat="performance" data-deduct="15" data-label="Shading concern affecting production" onchange="updateReportCard()">Shading concern</label>
+            <label class="check"><input type="checkbox" data-cat="performance" data-deduct="18" data-label="Production appears below expected" onchange="updateReportCard()">Below expected production</label>
+            <label class="check"><input type="checkbox" data-cat="performance" data-deduct="10" data-label="Communication gateway issue" onchange="updateReportCard()">Gateway/communication issue</label>
+          </div></div>
+
+          <div class="check-section"><h3>4. Electrical Safety Flags</h3><div class="check-grid">
+            <label class="check"><input type="checkbox" data-cat="electrical" data-deduct="25" data-label="Exposed conductor or damaged wiring" onchange="updateReportCard()">Exposed conductor/damaged wire</label>
+            <label class="check"><input type="checkbox" data-cat="electrical" data-deduct="20" data-label="Damaged conduit or fitting" onchange="updateReportCard()">Damaged conduit/fitting</label>
+            <label class="check"><input type="checkbox" data-cat="electrical" data-deduct="15" data-label="Improper or missing labels" onchange="updateReportCard()">Missing/improper labels</label>
+            <label class="check"><input type="checkbox" data-cat="electrical" data-deduct="25" data-label="Heat damage or overheating signs" onchange="updateReportCard()">Heat damage/overheating signs</label>
+            <label class="check"><input type="checkbox" data-cat="electrical" data-deduct="20" data-label="Breaker or interconnection concern" onchange="updateReportCard()">Breaker/interconnection concern</label>
+            <label class="check"><input type="checkbox" data-cat="electrical" data-deduct="15" data-label="Corrosion inside electrical equipment" onchange="updateReportCard()">Electrical corrosion</label>
+          </div></div>
+
+          <div class="check-section"><h3>5–7. Warranty, Replacement, Expansion Flags</h3><div class="check-grid">
+            <label class="check"><input type="checkbox" data-cat="warranty" data-deduct="15" data-label="Manufacturer documentation unavailable" onchange="updateReportCard()">Warranty docs unavailable</label>
+            <label class="check"><input type="checkbox" data-cat="warranty" data-deduct="20" data-label="Major component appears out of warranty" onchange="updateReportCard()">Component likely out of warranty</label>
+            <label class="check"><input type="checkbox" data-cat="replacement" data-deduct="20" data-label="Replacement parts may be difficult to source" onchange="updateReportCard()">Replacement parts may be hard to source</label>
+            <label class="check"><input type="checkbox" data-cat="replacement" data-deduct="15" data-label="System age suggests planning for future replacement" onchange="updateReportCard()">Age suggests replacement planning</label>
+            <label class="check"><input type="checkbox" data-cat="expansion" data-deduct="20" data-label="Main panel upgrade may be required for battery expansion" onchange="updateReportCard()">MPU may be required</label>
+            <label class="check"><input type="checkbox" data-cat="expansion" data-deduct="15" data-label="Limited breaker space or backup-load planning required" onchange="updateReportCard()">Limited breaker/load space</label>
+          </div></div>
+
+          <div id="reportCardLive" class="reportcard-live"></div>
+          <div class="small-note">These scores are automatically calculated from the selected observations. The final report combines them into the client-facing Solar Health Report Card.</div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:18px;">
+        <div class="panel-head">
+          <h2>Detailed findings</h2>
+          <p>Add as many findings as needed. Each one becomes a polished card in the report.</p>
+        </div>
+        <div class="panel-body">
+          <div class="actions" style="margin-top:0; margin-bottom:12px;"><button class="btn-secondary" type="button" onclick="addFinding()">+ Add finding</button></div>
+          <div id="findingsWrap" class="findings-wrap"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:18px;">
+        <div class="panel-head">
+          <h2>Photo documentation</h2>
+          <p>Unlimited photos. Each image can have its own caption and note for the client report.</p>
+        </div>
+        <div class="panel-body">
+          <div class="uploader">
+            <div class="field full"><label>Add photos</label><input id="photosInput" type="file" accept="image/*" multiple></div>
+            <div class="hint">You can select more photos later without replacing the previous ones.</div>
+          </div>
+          <div id="photoGrid" class="photo-grid"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-ghost" type="button" onclick="refreshPreview()">Refresh preview</button>
+        <button class="btn-secondary" type="button" onclick="openPreview()">Open report preview</button>
+        <button class="btn-primary" type="button" onclick="submitAll()">Submit to Google Drive</button>
+      </div>
+      <div class="hint">This saves the report HTML, PDF, photos, and JSON backup into your approved Drive folder.</div>
+    </div>
+
+    <div class="preview-box">
+      <div class="panel-head">
+        <h2>Client report preview</h2>
+        <p>Refresh at any time to see how the homeowner/realtor-facing report will look.</p>
+      </div>
+      <iframe id="previewFrame" class="preview-frame"></iframe>
+    </div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+let logoDataUrl = '';
+let photosState = [];
+function byId(id) { return document.getElementById(id); }
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function nl2br(s) { return esc(s).replace(/\n/g, '<br>'); }
+function showToast(ok, html) { const t = byId('toast'); t.className = 'toast ' + (ok ? 'ok' : 'err'); t.innerHTML = html; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 8000); }
+function conditionClass(condition) { const c = String(condition || '').toLowerCase(); if (c.includes('excellent') || c.includes('healthy') || c.includes('satisfactory')) return 'green'; if (c.includes('red flag') || c.includes('immediate') || c.includes('critical') || c.includes('needs')) return 'red'; return 'yellow'; }
+function renderConditionPill() { const c = byId('condition').value; const cls = conditionClass(c); byId('conditionPill').innerHTML = `<div class="score-pill ${cls}"><span class="dot"></span>${esc(c)}</div>`; }
+function addFinding(data = {}) { const wrap = document.createElement('div'); wrap.className = 'finding-card'; wrap.innerHTML = `<div class="top"><strong>${esc(data.title || 'New finding')}</strong><button type="button" class="remove-btn" onclick="this.closest('.finding-card').remove(); refreshPreview();">Remove</button></div><div class="body"><div><div class="mini-label">Title</div><input class="f-title" value="${esc(data.title || '')}" placeholder="Example: Monitoring offline"></div><div><div class="mini-label">Severity</div><select class="f-priority"><option ${data.priority==='Satisfactory'?'selected':''}>Satisfactory</option><option ${data.priority==='Monitor'?'selected':''}>Monitor</option><option ${data.priority==='Service Recommended'?'selected':''}>Service Recommended</option><option ${data.priority==='Immediate Attention'?'selected':''}>Immediate Attention</option><option ${data.priority==='Red Flag'?'selected':''}>Red Flag</option></select></div><div><div class="mini-label">Report Card Category</div><select class="f-category"><option value="array" ${data.category==='array'?'selected':''}>Array Condition</option><option value="roof" ${data.category==='roof'?'selected':''}>Roof Condition</option><option value="performance" ${data.category==='performance'?'selected':''}>Array Performance</option><option value="electrical" ${(!data.category || data.category==='electrical')?'selected':''}>Electrical Safety</option><option value="warranty" ${data.category==='warranty'?'selected':''}>Remaining Warranty</option><option value="replacement" ${data.category==='replacement'?'selected':''}>Replacement Options</option><option value="expansion" ${data.category==='expansion'?'selected':''}>Ability to Expand / Add Battery</option></select></div><div><div class="mini-label">Issue found</div><textarea class="f-issue" placeholder="What was observed?">${esc(data.issue || '')}</textarea></div><div><div class="mini-label">Why it matters</div><textarea class="f-why" placeholder="Explain impact in plain language.">${esc(data.why || '')}</textarea></div><div><div class="mini-label">Corrective action</div><textarea class="f-action" placeholder="What should be done?">${esc(data.action || '')}</textarea></div><div><div class="mini-label">Estimated cost</div><input class="f-cost" value="${esc(data.cost || '')}" placeholder="$250–$450"></div><div style="grid-column:1/-1;"><div class="mini-label">Recommended timeline</div><input class="f-timeline" value="${esc(data.timeline || '')}" placeholder="Immediate / within 30 days / monitor 6 months"></div></div>`; byId('findingsWrap').appendChild(wrap); }
+function getFindings() { return [...document.querySelectorAll('.finding-card')].map(card => ({ title: card.querySelector('.f-title').value, priority: card.querySelector('.f-priority').value, category: card.querySelector('.f-category') ? card.querySelector('.f-category').value : 'electrical', issue: card.querySelector('.f-issue').value, why: card.querySelector('.f-why').value, action: card.querySelector('.f-action').value, cost: card.querySelector('.f-cost').value, timeline: card.querySelector('.f-timeline').value })); }
+
+function clampScore(n){ n = Number(n); if (isNaN(n)) n = 100; return Math.max(0, Math.min(100, Math.round(n))); }
+function gradeClass(score){ score = Number(score || 0); if (score >= 85) return 'green'; if (score >= 65) return 'yellow'; return 'red'; }
+function gradeLabel(score, good, mid, bad){ score = Number(score || 0); if (score >= 85) return good || 'Strong'; if (score >= 65) return mid || 'Service Recommended'; return bad || 'Immediate Attention'; }
+function getReportCardObservations(){
+  const obs = {};
+  document.querySelectorAll('[data-cat]').forEach(cb => {
+    if (!cb.checked) return;
+    const cat = cb.dataset.cat;
+    if (!obs[cat]) obs[cat] = [];
+    obs[cat].push({ label: cb.dataset.label || cb.closest('label')?.innerText || '', deduct: Number(cb.dataset.deduct || 0) });
+  });
+  return obs;
+}
+function findingDeduction(priority){
+  const p = String(priority || '').toLowerCase();
+  if (p.includes('red flag')) return 35;
+  if (p.includes('immediate')) return 28;
+  if (p.includes('service')) return 18;
+  if (p.includes('monitor')) return 8;
+  return 0; // Satisfactory / no deduction
+}
+function calculateReportCard(){
+  const obs = getReportCardObservations();
+  const findingDeductions = {};
+  getFindings().forEach(f => {
+    const cat = f.category || 'electrical';
+    findingDeductions[cat] = (findingDeductions[cat] || 0) + findingDeduction(f.priority);
+  });
+  function catScore(cat){ return clampScore(100 - (obs[cat] || []).reduce((sum, item) => sum + Number(item.deduct || 0), 0) - (findingDeductions[cat] || 0)); }
+  const currentYear = new Date().getFullYear();
+  const installYear = Number(byId('installYear')?.value || 0);
+  const age = installYear ? Math.max(0, currentYear - installYear) : null;
+  const moduleWarrantyYears = Number(byId('moduleWarrantyYears')?.value || 25);
+  const inverterWarrantyYears = Number(byId('inverterWarrantyYears')?.value || 10);
+  const moduleRemain = age === null ? null : Math.max(0, moduleWarrantyYears - age);
+  const inverterRemain = age === null ? null : Math.max(0, inverterWarrantyYears - age);
+  let warrantyScore = 75;
+  if (age !== null) {
+    const minRemain = Math.min(moduleRemain, inverterRemain);
+    warrantyScore = minRemain >= 10 ? 95 : minRemain >= 5 ? 85 : minRemain > 0 ? 68 : 42;
+  }
+  warrantyScore = clampScore(warrantyScore - (obs.warranty || []).reduce((sum, item) => sum + Number(item.deduct || 0), 0) - (findingDeductions.warranty || 0));
+  const replacementYears = Number(byId('replacementYears')?.value || 0);
+  let replacementScore = replacementYears >= 8 ? 95 : replacementYears >= 5 ? 84 : replacementYears >= 2 ? 68 : replacementYears > 0 ? 45 : 75;
+  replacementScore = clampScore(replacementScore - (obs.replacement || []).reduce((sum, item) => sum + Number(item.deduct || 0), 0) - (findingDeductions.replacement || 0));
+  const expansionBase = String(byId('expansionReadiness')?.value || '').toLowerCase();
+  let expansionScore = expansionBase.includes('ready') && !expansionBase.includes('not') ? 95 : expansionBase.includes('partial') ? 78 : expansionBase.includes('not') ? 50 : 75;
+  expansionScore = clampScore(expansionScore - (obs.expansion || []).reduce((sum, item) => sum + Number(item.deduct || 0), 0) - (findingDeductions.expansion || 0));
+  const categories = [
+    { key:'array', label:'Array Condition', score:catScore('array'), status:gradeLabel(catScore('array'), 'Good', 'Service Recommended', 'Immediate Attention'), why:'Physical condition of modules, rails, attachments, soiling, corrosion, and animal activity.' },
+    { key:'roof', label:'Roof Condition', score:catScore('roof'), status:gradeLabel(catScore('roof'), 'Good', 'Monitor / Service', 'Roof Concern'), why:'Roof condition around solar attachments, penetrations, flashing, drainage, age, and visible wear.' },
+    { key:'performance', label:'Array Performance', score:catScore('performance'), status:gradeLabel(catScore('performance'), 'Performing Well', 'Performance Review', 'Performance Issue'), why:'Monitoring, production indicators, inverter behavior, shading, faults, and expected output.' },
+    { key:'electrical', label:'Electrical Safety', score:catScore('electrical'), status:gradeLabel(catScore('electrical'), 'No Major Flags', 'Electrical Flags', 'Safety Concern'), why:'Disconnects, conduit, labels, breakers, wiring, heat signs, corrosion, and workmanship concerns.' },
+    { key:'warranty', label:'Remaining Warranty', score:warrantyScore, status:gradeLabel(warrantyScore, 'Strong Coverage', 'Limited Coverage', 'Warranty Risk'), why:'Estimated remaining module and inverter warranty based on install year and warranty assumptions.' },
+    { key:'replacement', label:'Replacement Options', score:replacementScore, status:gradeLabel(replacementScore, 'Long-Term Use', 'Plan Ahead', 'Replacement Planning'), why:'Lifecycle planning based on age, roof condition, equipment condition, and availability of like-kind parts.' },
+    { key:'expansion', label:'Ability to Expand / Add Battery', score:expansionScore, status:gradeLabel(expansionScore, 'Battery Ready', 'Conditional', 'Limited'), why:'Panel capacity, breaker space, inverter compatibility, backup-load planning, and upgrade complexity.' }
+  ];
+  const overall = clampScore(categories.reduce((sum, c) => sum + c.score, 0) / categories.length);
+  return { overall, overallStatus:gradeLabel(overall, 'Healthy System', 'Service Recommended', 'Immediate Attention'), categories, moduleWarrantyRemaining:moduleRemain, inverterWarrantyRemaining:inverterRemain, systemAge:age };
+}
+function updateReportCard(){
+  const rc = calculateReportCard();
+  if (byId('score')) byId('score').value = rc.overall;
+  if (byId('condition')) byId('condition').value = rc.overallStatus === 'Healthy System' ? 'Excellent' : rc.overallStatus;
+  renderConditionPill();
+  const el = byId('reportCardLive');
+  if (el) {
+    el.innerHTML = rc.categories.map(c => `<div class="report-tile ${gradeClass(c.score)}"><div class="k">${esc(c.label)}</div><div class="v"><div>${esc(c.status)}</div><span>${esc(c.score)}</span></div></div>`).join('');
+  }
+  refreshPreview();
+}
+function buildReportCardPreviewHtml(rc){
+  const tiles = (rc.categories || []).map(c => `<div style="border:1px solid #dce9f5;border-left:7px solid ${gradeClass(c.score)==='green'?'#1ea672':gradeClass(c.score)==='yellow'?'#d9a100':'#cc3c3c'};border-radius:16px;padding:16px;background:#fbfdff;"><div style="display:flex;justify-content:space-between;gap:12px;"><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:800;">${esc(c.label)}</div><div style="font-size:16px;font-weight:800;color:#12375b;margin-top:5px;">${esc(c.status)}</div></div><div style="font-size:36px;font-weight:900;color:#12375b;">${esc(c.score)}</div></div><div style="height:9px;border-radius:999px;background:#e7eef5;overflow:hidden;margin:12px 0;"><span style="display:block;height:100%;width:${esc(c.score)}%;background:linear-gradient(90deg,#1c4f7c,#0e8a92);"></span></div><div style="font-size:13px;line-height:1.45;color:#4e6780;">${esc(c.why || '')}</div></div>`).join('');
+  const warranty = rc.systemAge != null ? `<div style="margin-top:14px;padding:12px 14px;border-radius:14px;background:#f7fbff;border:1px solid #dce9f5;color:#38536f;font-size:13px;"><strong>Estimated system age:</strong> ${esc(rc.systemAge)} years • <strong>Module warranty remaining:</strong> ${esc(rc.moduleWarrantyRemaining)} years • <strong>Inverter warranty remaining:</strong> ${esc(rc.inverterWarrantyRemaining)} years</div>` : '';
+  return `<div style="margin-top:20px;"><h2 style="margin:0 0 12px;font-size:24px;color:#163c61;">PV+ Solar Health Report Card™</h2><div style="display:flex;justify-content:space-between;align-items:center;gap:18px;border-radius:18px;padding:20px;margin-bottom:16px;border:1px solid #dce9f5;background:${gradeClass(rc.overall)==='green'?'#e9f8f1':gradeClass(rc.overall)==='yellow'?'#fff6dc':'#fdecec'};color:${gradeClass(rc.overall)==='green'?'#166534':gradeClass(rc.overall)==='yellow'?'#8a5b00':'#991b1b'};"><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;opacity:.75;">Combined system health</div><div style="font-size:24px;font-weight:900;margin-top:6px;">${esc(rc.overallStatus)}</div></div><div style="font-size:54px;line-height:1;font-weight:900;">${esc(rc.overall)}<span style="font-size:20px;font-weight:800;opacity:.7;">/100</span></div></div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">${tiles}</div>${warranty}</div>`;
+}
+function buildPayload() { const ref = byId('referenceId').value.trim() || ('PVP-' + new Date().toISOString().slice(0,19).replace(/[-:T]/g,'')); const rc = calculateReportCard(); return { date: byId('date').value, referenceId: ref, technician: byId('technician').value, serviceType: byId('serviceType').value, customer: byId('customer').value, address: byId('address').value, pvSize: byId('pvSize').value, batterySize: byId('batterySize').value, monitoring: byId('monitoring').value, annualProduction: byId('annualProduction').value, inverter: byId('inverter').value, modules: byId('modules').value, score: rc.overall, condition: rc.overallStatus === 'Healthy System' ? 'Excellent' : rc.overallStatus, installYear: byId('installYear') ? byId('installYear').value : '', moduleWarrantyYears: byId('moduleWarrantyYears') ? byId('moduleWarrantyYears').value : '', inverterWarrantyYears: byId('inverterWarrantyYears') ? byId('inverterWarrantyYears').value : '', replacementYears: byId('replacementYears') ? byId('replacementYears').value : '', expansionReadiness: byId('expansionReadiness') ? byId('expansionReadiness').value : '', reportCardObservations: getReportCardObservations(), reportCard: rc, summary: byId('summary').value, executiveSummary: byId('executiveSummary').value, recommendations: byId('recommendations').value, findings: getFindings(), photos: photosState }; }
+function buildPreviewHtml(payload) { const statusCls = conditionClass(payload.condition); const findingsHtml = (payload.findings || []).length ? payload.findings.map((f, i) => { const sev = conditionClass(f.priority); return `<div style="border:1px solid #dce9f5;border-radius:18px;padding:18px;margin:14px 0;background:linear-gradient(180deg,#fff,#f9fcff)"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;"><div><div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#65809a;font-weight:700;">Finding ${i+1}</div><div style="font-size:21px;font-weight:800;color:#12375b;margin-top:6px;">${esc(f.title || 'General observation')}</div></div><div style="padding:7px 11px;border-radius:999px;font-size:12px;font-weight:800;${sev==='red'?'background:#fde7e7;color:#b22929;border:1px solid #f4c8c8;':sev==='green'?'background:#e2f7ef;color:#197b57;border:1px solid #c6eadb;':'background:#fff4d8;color:#9b6a00;border:1px solid #f3df9c;'}">${esc(f.priority || 'Service Recommended')}</div></div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px;margin-top:14px;"><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:700;">Issue found</div><div style="margin-top:6px;color:#35516d;line-height:1.55;">${nl2br(f.issue || '')}</div></div><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:700;">Why it matters</div><div style="margin-top:6px;color:#35516d;line-height:1.55;">${nl2br(f.why || '')}</div></div><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:700;">Corrective action</div><div style="margin-top:6px;color:#35516d;line-height:1.55;">${nl2br(f.action || '')}</div></div><div><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:700;">Estimated cost</div><div style="margin-top:6px;color:#35516d;line-height:1.55;">${esc(f.cost || 'TBD')}</div></div></div><div style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#f3f9ff;border:1px solid #dbe8f5;color:#35516d;"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:700;">Recommended timeline</span><div style="margin-top:6px;">${esc(f.timeline || 'Not specified')}</div></div></div>`; }).join('') : '<div style="color:#6b7f93;font-style:italic;padding:8px 0;">No detailed findings were entered.</div>'; const photosHtml = photosState.length ? '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;">' + photosState.map((p, i) => `<figure style="margin:0;background:#fff;border:1px solid #dce9f5;border-radius:18px;overflow:hidden;box-shadow:0 4px 14px rgba(28,79,124,.06);"><img src="${p.dataUrl}" style="width:100%;height:260px;object-fit:cover;display:block;background:#eaf1f7;"><figcaption style="padding:14px;"><div style="font-weight:800;color:#12375b;">${esc(p.caption || ('Photo ' + (i+1)))}</div><div style="color:#4e6780;margin-top:6px;line-height:1.5;">${nl2br(p.note || '')}</div></figcaption></figure>`).join('') + '</div>' : '<div style="color:#6b7f93;font-style:italic;padding:8px 0;">No photo documentation attached.</div>'; const reportCardHtml = buildReportCardPreviewHtml(payload.reportCard || calculateReportCard()); return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(payload.customer || 'Client')} - PV+ Solar Health Report</title></head><body style="margin:0;font-family:Arial,Helvetica,sans-serif;color:#17324d;background:#edf3f8;"><div style="max-width:980px;margin:0 auto;background:#fff;"><div style="color:#fff;padding:34px 36px 28px;background:linear-gradient(135deg,rgba(28,79,124,.94),rgba(14,138,146,.92)),repeating-linear-gradient(150deg,rgba(255,255,255,.08) 0,rgba(255,255,255,.08) 18px,rgba(255,255,255,.02) 18px,rgba(255,255,255,.02) 36px);"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;"><img src="${logoDataUrl}" style="width:190px;max-width:100%;height:auto;display:block;"><div style="font-size:14px;opacity:.96;">Prepared by PV+ for homeowners, realtors, and property managers.</div></div><div style="font-size:34px;line-height:1.05;font-weight:800;margin:16px 0 6px;letter-spacing:-.02em;">Service & Inspection Report</div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;max-width:620px;margin-top:18px;">${[['Prepared for', payload.customer || 'Client'], ['Property', payload.address || 'Address not entered'], ['Inspection date', payload.date || ''], ['Technician', payload.technician || '']].map(x => `<div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 12px;"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.82;">${esc(x[0])}</div><div style="font-size:15px;font-weight:700;margin-top:4px;">${esc(x[1])}</div></div>`).join('')}</div></div><div style="padding:28px;">${reportCardHtml}<div style="display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:20px;"><div style="background:#fff;border:1px solid #d6e4f0;border-radius:18px;padding:22px;box-shadow:0 8px 24px rgba(28,79,124,.08);"><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:700;">System condition</div><div style="font-size:64px;font-weight:800;line-height:1;margin:8px 0 6px;color:#12375b;">${esc(payload.score || '—')}${payload.score ? '/100' : ''}</div><div style="font-size:28px;font-weight:800;display:flex;align-items:center;gap:10px;color:${statusCls==='green'?'#138a63':statusCls==='red'?'#bb2f2f':'#b37b00'};"><span style="width:14px;height:14px;border-radius:50%;display:inline-block;background:currentColor;"></span>${esc(payload.condition || 'Service Recommended')}</div><div style="margin-top:10px;font-size:14px;line-height:1.55;color:#38536f;">${nl2br(payload.summary || 'No customer-friendly summary was entered.')}</div></div><div style="background:#fff;border:1px solid #d6e4f0;border-radius:18px;padding:22px;box-shadow:0 8px 24px rgba(28,79,124,.08);"><div style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#5f7287;font-weight:700;">System snapshot</div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px;margin-top:10px;">${[['PV size', (payload.pvSize||'—') + ' kW DC'],['Battery',(payload.batterySize||'—') + ' kWh'],['Monitoring',payload.monitoring||'—'],['Annual production',(payload.annualProduction||'—') + ' kWh'],['Inverter',payload.inverter||'—'],['Modules',payload.modules||'—']].map(x => `<div style="padding:12px 14px;border-radius:14px;background:#f7fbff;border:1px solid #dce9f5;"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#65809a;">${esc(x[0])}</div><div style="margin-top:5px;font-size:16px;font-weight:700;color:#12375b;">${esc(x[1])}</div></div>`).join('')}</div></div></div><div style="margin-top:20px;"><h2 style="margin:0 0 12px;font-size:24px;color:#163c61;">What this means</h2><div style="background:#fbfdff;border:1px solid #dce9f5;border-radius:16px;padding:18px;line-height:1.62;color:#38536f;">${nl2br(payload.executiveSummary || payload.summary || 'No executive summary was entered.')}</div></div><div style="margin-top:20px;"><h2 style="margin:0 0 12px;font-size:24px;color:#163c61;">Detailed findings</h2>${findingsHtml}</div><div style="margin-top:20px;"><h2 style="margin:0 0 12px;font-size:24px;color:#163c61;">Recommended PV+ service scope</h2><div style="background:#fbfdff;border:1px solid #dce9f5;border-radius:16px;padding:18px;line-height:1.62;color:#38536f;">${nl2br(payload.recommendations || 'No recommended service scope was entered.')}</div></div><div style="margin-top:20px;"><h2 style="margin:0 0 12px;font-size:24px;color:#163c61;">Photo documentation</h2>${photosHtml}</div></div></div></body></html>`; }
+function readFileAsDataUrl(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file); }); }
+async function handlePhotoInput(ev) { const files = [...ev.target.files]; for (const file of files) { const dataUrl = await readFileAsDataUrl(file); photosState.push({ name: file.name, dataUrl, caption: '', note: '' }); } ev.target.value = ''; renderPhotos(); refreshPreview(); }
+function renderPhotos() { const grid = byId('photoGrid'); grid.innerHTML = ''; photosState.forEach((p, idx) => { const item = document.createElement('div'); item.className = 'photo-item'; item.innerHTML = `<img src="${p.dataUrl}" alt="${esc(p.name)}"><div class="photo-body"><div class="field"><label>Caption</label><input value="${esc(p.caption || '')}" data-photo-caption="${idx}" placeholder="Example: Inverter close-up"></div><div class="field"><label>Observation</label><textarea data-photo-note="${idx}" placeholder="Optional note for the client report">${esc(p.note || '')}</textarea></div><div class="photo-actions"><div class="hint">${esc(p.name)}</div><button type="button" class="remove-btn" data-remove-photo="${idx}">Remove</button></div></div>`; grid.appendChild(item); }); grid.querySelectorAll('[data-photo-caption]').forEach(el => { el.addEventListener('input', e => { photosState[Number(e.target.dataset.photoCaption)].caption = e.target.value; refreshPreview(); }); }); grid.querySelectorAll('[data-photo-note]').forEach(el => { el.addEventListener('input', e => { photosState[Number(e.target.dataset.photoNote)].note = e.target.value; refreshPreview(); }); }); grid.querySelectorAll('[data-remove-photo]').forEach(btn => { btn.addEventListener('click', e => { photosState.splice(Number(e.target.dataset.removePhoto), 1); renderPhotos(); refreshPreview(); }); }); }
+function refreshPreview() { byId('previewFrame').srcdoc = buildPreviewHtml(buildPayload()); }
+function openPreview() { const w = window.open('', '_blank'); w.document.open(); w.document.write(buildPreviewHtml(buildPayload())); w.document.close(); }
+async function submitAll() {
+  const payload = buildPayload();
+  showToast(true, 'Submitting report... please wait.');
+  try {
+    await fetch('https://script.google.com/macros/s/AKfycbw5lPnJKV1e_g2sqn7NE5CoTadJJnYDeHYzooF2n21K7tpjJ_tIyQyLNsPcRsnofLTn/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    showToast(true, 'Report submitted. Check the PV+ Drive folder for the new PDF/report folder.');
+  } catch (err) {
+    console.error(err);
+    showToast(false, 'Submit failed: ' + (err && err.message ? err.message : err));
+  }
+}
+function init() { byId('date').value = new Date().toISOString().slice(0, 10); renderConditionPill(); addFinding({ title:'Monitoring status review', priority:'Service Recommended' }); byId('photosInput').addEventListener('change', handlePhotoInput); logoDataUrl = 'https://drive.google.com/uc?export=view&id=1QgB5Z7h40vZzeSs-JFsEtEGL3ocqMJUP'; byId('logoImg').src = logoDataUrl; updateReportCard(); refreshPreview(); }
+window.addEventListener('load', init);
+</script>
+</body>
+</html>
