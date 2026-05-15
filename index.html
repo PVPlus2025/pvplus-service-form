@@ -53,4 +53,4 @@ function buildPreviewHtml(p){const scores=p.categoryScores||calculateScores();co
 function refreshPreview(){byId("previewFrame").srcdoc=buildPreviewHtml(buildPayload())}function openPreview(){const w=window.open("","_blank");w.document.write(buildPreviewHtml(buildPayload()));w.document.close()}
 async function submitAll(){const p=buildPayload();p.reportHtml=buildPreviewHtml(p);try{await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)});showToast(true,"Submitted. Check Google Drive for the report folder.");}catch(e){showToast(false,"Submit failed: "+e.message)}}
 byId("photosInput").addEventListener("change",e=>handlePhotoSelect(e.target.files));byId("date").value=new Date().toISOString().slice(0,10);initChecklists();addFinding();renderPhotos();refreshReportCard();
-</script></body></html>
+</script></body></html><!-- update -->
